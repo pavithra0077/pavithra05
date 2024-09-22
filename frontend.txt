@@ -1,0 +1,82 @@
+npx create-react-app frontend --template typescript
+cd frontend
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "Node16",
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "moduleResolution": "Node",
+    "resolveJsonModule": true
+  }
+}
+import React, { useState } from 'react';
+
+interface ResponseData {
+  numbers: string[];
+  alphabets: string[];
+  highest_lowercase_alphabet: string[];
+}
+
+const App: React.FC = () => {
+  const [input, setInput] = useState<string>('');
+  const [response, setResponse] = useState<ResponseData | null>(null);
+  const [dropdownValue, setDropdownValue] = useState<string>('');
+
+  const submitData = async () => {
+    try {
+      const res = await fetch('http://localhost:3000/bfhl', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ data: JSON.parse(input) })
+      });
+      const data: ResponseData = await res.json();
+      setResponse(data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const handleDropdownChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setDropdownValue(e.target.value);
+  };
+
+  return (
+    <div>
+      <h1>Your Roll Number</h1>
+      <textarea
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Enter JSON data here"
+      />
+      <button onClick={submitData}>Submit</button>
+      <select onChange={handleDropdownChange}>
+        <option value="">Select what to display</option>
+        <option value="numbers">Numbers</option>
+        <option value="alphabets">Alphabets</option>
+        <option value="highestLowercase">Highest Lowercase Alphabet</option>
+      </select>
+      <div>
+        {response && dropdownValue === 'numbers' && (
+          <p>Numbers: {response.numbers.join(', ')}</p>
+        )}
+        {response && dropdownValue === 'alphabets' && (
+          <p>Alphabets: {response.alphabets.join(', ')}</p>
+        )}
+        {response && dropdownValue === 'highestLowercase' && (
+          <p>Highest Lowercase Alphabet: {response.highest_lowercase_alphabet.join(', ')}</p>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default App;
+
+npm start
+
