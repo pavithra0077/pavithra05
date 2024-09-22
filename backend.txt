@@ -1,0 +1,53 @@
+Welcome to Node.js v20.17.0.
+Type ".help" for more information.
+> const express = require('express');
+Uncaught Error: Cannot find module 'express'
+Require stack:
+- <repl>
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1225:15)
+    at Module._load (node:internal/modules/cjs/loader:1051:27)
+    at Module.require (node:internal/modules/cjs/loader:1311:19)
+    at require (node:internal/modules/helpers:179:18) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '<repl>' ]
+}
+> const bodyParser = require('body-parser');
+Uncaught Error: Cannot find module 'body-parser'
+Require stack:
+- <repl>
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1225:15)
+    at Module._load (node:internal/modules/cjs/loader:1051:27)
+    at Module.require (node:internal/modules/cjs/loader:1311:19)
+    at require (node:internal/modules/helpers:179:18) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '<repl>' ]
+}
+> const routes = require('./routes');
+Uncaught Error: Cannot find module './routes'
+Require stack:
+- <repl>
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1225:15)
+    at Module._load (node:internal/modules/cjs/loader:1051:27)
+    at Module.require (node:internal/modules/cjs/loader:1311:19)
+    at require (node:internal/modules/helpers:179:18) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '<repl>' ]
+}
+>
+> const app = express();
+Uncaught ReferenceError: express is not defined
+> const PORT = process.env.PORT || 3000;
+undefined
+>
+> app.use(bodyParser.json());
+Uncaught ReferenceError: app is not defined
+>
+> app.use('/', routes);
+Uncaught ReferenceError: app is not defined
+>
+> app.listen(PORT, () => {
+...   console.log(`Server running on port ${PORT}`);
+... });
+Uncaught ReferenceError: app is not defined
+>
+>
